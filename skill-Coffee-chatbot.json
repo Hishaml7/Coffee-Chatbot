@@ -1,0 +1,690 @@
+{
+  "intents": [
+    {
+      "intent": "EndConversation",
+      "examples": [
+        {
+          "text": "No"
+        },
+        {
+          "text": "No thank you"
+        },
+        {
+          "text": "Thanks, I'm done"
+        },
+        {
+          "text": "Thanks, I'm fine"
+        },
+        {
+          "text": "Thanks, that's all I need"
+        },
+        {
+          "text": "Thank you, I'm done"
+        },
+        {
+          "text": "Thank you, I'm fine"
+        },
+        {
+          "text": "Thank you, that's all I need"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Purpose",
+      "examples": [
+        {
+          "text": "How do I use you"
+        },
+        {
+          "text": "What are you"
+        },
+        {
+          "text": "What do you do"
+        },
+        {
+          "text": "What is your goal"
+        },
+        {
+          "text": "What is your mission"
+        },
+        {
+          "text": "What is your purpose"
+        },
+        {
+          "text": "Who are you"
+        }
+      ],
+      "description": "Asking about the purpose of this bot"
+    },
+    {
+      "intent": "Welcome",
+      "examples": [
+        {
+          "text": "Can I order a coffee"
+        },
+        {
+          "text": "Can I order a cup of coffee"
+        },
+        {
+          "text": "Can I order some coffee"
+        },
+        {
+          "text": "Can I place a coffee order"
+        },
+        {
+          "text": "Can you take a coffee order"
+        },
+        {
+          "text": "Hello, can I order a cup of coffee"
+        },
+        {
+          "text": "Hello, I want to order a coffee"
+        },
+        {
+          "text": "Hey, can I order a coffee"
+        },
+        {
+          "text": "Hey, can I order a cup of coffee"
+        },
+        {
+          "text": "Hi, can I order a cup of cuffee"
+        },
+        {
+          "text": "Hi, I want to order a coffee"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "CupSize",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Large",
+          "synonyms": [
+            "Large cup"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Medium",
+          "synonyms": [
+            "Medium cup"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Small",
+          "synonyms": [
+            "Small cup"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "ItemsName",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Americano",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Black Coffee",
+          "synonyms": [
+            "regular coffee"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Cappuccino",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Espresso",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Latte",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Mocha",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Temp",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Cold",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Hot",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    },
+    "from-sample": true
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I didn't understand. You can try rephrasing."
+              },
+              {
+                "text": "Can you reword your statement? I'm not understanding."
+              },
+              {
+                "text": "I didn't get your meaning."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_10_1625246312541",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You're welcome, you're being redirected to the payment page."
+              },
+              {
+                "text": "Fine, you're being redirected to the payment page."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "#EndConversation",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_10_1625246312541",
+      "previous_sibling": "node_5_1625244928576"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1625244928576",
+      "conditions": "@CupSize && @ItemsName && @Temp",
+      "dialog_node": "node_10_1625247068719"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_9_1625568945278",
+      "conditions": "@Temp",
+      "dialog_node": "node_10_1625568945278"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_6_1625246795741",
+      "conditions": "@Temp",
+      "dialog_node": "node_1_1625246852122"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, what size?"
+              },
+              {
+                "text": "Sure, what size do you want? We have small, medium, and large."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1625244928576",
+      "conditions": "@ItemsName && @Temp",
+      "dialog_node": "node_1_1625246925794",
+      "previous_sibling": "node_6_1625246795741"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "@CupSize && @ItemsName && @Temp && #Welcome",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_1_1625568801002",
+      "previous_sibling": "node_9_1625567755414"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, hot or cold?"
+              },
+              {
+                "text": "Sure, do you want it hot or cold?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_6_1625245805321",
+      "conditions": "@CupSize",
+      "dialog_node": "node_2_1625245894803"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, do you want it hot or cold?"
+              },
+              {
+                "text": "Sure, hot or cold?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "@ItemsName && @CupSize && #Welcome",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_4_1625568899949",
+      "previous_sibling": "node_1_1625568801002"
+    },
+    {
+      "type": "standard",
+      "title": "Ask the user to write the order",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sure, what do you need?"
+              },
+              {
+                "text": "Sure, what is your order?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#Welcome",
+      "dialog_node": "node_5_1625244928576",
+      "previous_sibling": "node_8_1625568945277"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_4_1625568899949",
+      "conditions": "@Temp",
+      "dialog_node": "node_5_1625568899950"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, what size?"
+              },
+              {
+                "text": "Sure, what size do you want? We have small, medium, and large."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_5_1625244928576",
+      "conditions": "@ItemsName",
+      "dialog_node": "node_6_1625245805321",
+      "previous_sibling": "node_1_1625246925794"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, do you want it hot or cold?"
+              },
+              {
+                "text": "Sure, hot or cold?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_5_1625244928576",
+      "conditions": "@ItemsName && @CupSize",
+      "dialog_node": "node_6_1625246795741",
+      "previous_sibling": "node_10_1625247068719"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, what size?"
+              },
+              {
+                "text": "Sure, what size do you want? We have small, medium, and large."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "@ItemsName && @Temp && #Welcome",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_6_1625568928976",
+      "previous_sibling": "node_4_1625568899949"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_2_1625245894803",
+      "conditions": "@Temp",
+      "dialog_node": "node_7_1625245984376"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_6_1625568928976",
+      "conditions": "@CupSize",
+      "dialog_node": "node_7_1625568928976"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, your order is confirmed. Do you want anything else?"
+              },
+              {
+                "text": "Okay, your order is confirmed. Anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1625246925794",
+      "conditions": "@CupSize",
+      "dialog_node": "node_8_1625247028587"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, what size?"
+              },
+              {
+                "text": "Sure, what size do you want? We have small, medium, and large."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "@ItemsName && #Welcome",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_8_1625568945277",
+      "previous_sibling": "node_6_1625568928976"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I'm a coffee bot. I take your coffee order and forward it to the team."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#Purpose",
+      "dialog_node": "node_9_1625567755414",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, hot or cold?"
+              },
+              {
+                "text": "Sure, do you want it hot or cold?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_8_1625568945277",
+      "conditions": "@CupSize",
+      "dialog_node": "node_9_1625568945278"
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hello, I'm a coffee bot. How can I help you?"
+              },
+              {
+                "text": "Hi, I'm a coffee bot. How can I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "None of the above"
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "intent_classification": {
+      "training_backend_version": "v2"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "Coffee chatbot",
+  "language": "en",
+  "description": ""
+}
