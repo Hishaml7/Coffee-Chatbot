@@ -4,7 +4,7 @@ The purpose of this chatbot is to take coffee orders from customers. You can sta
 
 Examples of each property:
 
-coffee type: Mocha, Cappuccino, Espresso
+Coffee type: Mocha, Cappuccino, Espresso
 
 Coffee cup: Small, Medium, Large
 
